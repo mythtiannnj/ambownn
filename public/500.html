@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>500 — Server Error</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;box-sizing:border-box}
+  body{
+    font-family:Inter,sans-serif;color:#fff;min-height:100vh;
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;
+    background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);
+    position:relative;overflow:hidden;
+  }
+  .blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;z-index:0;pointer-events:none}
+  .blob.b1{width:480px;height:480px;background:#EF4444;top:-140px;left:-120px}
+  .blob.b2{width:460px;height:460px;background:#EC4899;bottom:-160px;right:-120px}
+  .card{
+    position:relative;z-index:2;max-width:480px;width:100%;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(24px) saturate(160%);
+    -webkit-backdrop-filter:blur(24px) saturate(160%);
+    border:1px solid rgba(255,255,255,0.18);border-radius:24px;
+    padding:48px 32px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  h1{
+    font-size:96px;font-weight:800;letter-spacing:-4px;
+    background:linear-gradient(135deg,#fca5a5,#f0abfc);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  p{color:rgba(255,255,255,0.7);margin:12px 0 28px;font-size:16px}
+  a{
+    display:inline-block;padding:12px 24px;color:#fff;border-radius:12px;
+    text-decoration:none;font-weight:600;transition:.25s;
+    background:linear-gradient(135deg,rgba(99,102,241,0.9),rgba(139,92,246,0.9));
+    border:1px solid rgba(255,255,255,0.2);
+    box-shadow:0 8px 24px rgba(99,102,241,0.35);
+  }
+  a:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(99,102,241,0.5)}
+  footer{margin-top:24px;font-size:12px;color:rgba(255,255,255,0.45)}
+  footer strong{color:rgba(255,255,255,0.8)}
+</style>
+</head>
+<body>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="card">
+    <h1>500</h1>
+    <p>Something went wrong on our end. Try again in a moment.</p>
+    <a href="/">← Back to Home</a>
+    <footer>Operated by <strong>Nolan Nakagdspeed</strong></footer>
+  </div>
+</body>
+</html>
