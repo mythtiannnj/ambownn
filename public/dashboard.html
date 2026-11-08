@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Inter',sans-serif;
+    color:#fff;
+    min-height:100vh;
+    display:flex; justify-content:center;
+    padding:48px 24px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  .blob {
+    position:fixed; border-radius:50%; filter:blur(90px);
+    opacity:.5; z-index:0; pointer-events:none;
+    animation: float 20s ease-in-out infinite;
+  }
+  .blob.b1 { width:560px; height:560px; background:#4F46E5; top:-180px; left:-140px; }
+  .blob.b2 { width:500px; height:500px; background:#EC4899; bottom:-200px; right:-140px; animation-delay:-7s; }
+  .blob.b3 { width:400px; height:400px; background:#06B6D4; top:35%; left:45%; animation-delay:-13s; }
+
+  @keyframes float {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%     { transform: translate(50px,-40px) scale(1.1); }
+    66%     { transform: translate(-40px,50px) scale(.92); }
+  }
+
+  .wrap { position:relative; z-index:2; max-width:900px; width:100%; }
+
+  header { text-align:center; margin-bottom:36px; }
+  header .logo {
+    width:52px; height:52px; margin:0 auto 14px;
+    border-radius:14px;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px;
+    box-shadow: 0 10px 30px rgba(99,102,241,0.45);
+  }
+  header h1 {
+    font-size:34px; font-weight:800; letter-spacing:-1px; color:#fff;
+  }
+  header h1 span {
+    background: linear-gradient(135deg,#a5b4fc,#f0abfc);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  header p { color: rgba(255,255,255,0.65); margin-top:8px; font-size:15px; }
+
+  .grid { display:grid; grid-template-columns:1.4fr 1fr; gap:24px; }
+  @media (max-width:800px){ .grid { grid-template-columns:1fr; } }
+
+  .card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:22px;
+    padding:32px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .card h2 {
+    font-size:18px; font-weight:700; margin-bottom:22px; color:#fff;
+  }
+
+  label {
+    display:block; font-size:13px; font-weight:600;
+    color: rgba(255,255,255,0.8); margin-bottom:6px;
+  }
+  input {
+    width:100%; padding:12px 14px;
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:12px;
+    font-size:15px; font-family:inherit;
+    background: rgba(255,255,255,0.06);
+    color:#fff;
+    transition:.25s;
+    margin-bottom:18px;
+    backdrop-filter: blur(8px);
+  }
+  input::placeholder { color: rgba(255,255,255,0.35); }
+  input:focus {
+    outline:none;
+    border-color: rgba(165,180,252,0.7);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 0 4px rgba(99,102,241,0.2);
+  }
+  input.invalid { border-color: rgba(248,113,113,0.7); }
+
+  .hint {
+    font-size:11px; color: rgba(255,255,255,0.4);
+    margin-top:-12px; margin-bottom:16px;
+  }
+
+  .btn {
+    width:100%; padding:14px;
+    border-radius:12px;
+    color:#fff; font-weight:600; font-size:15px;
+    border:1px solid rgba(255,255,255,0.2);
+    cursor:pointer; transition:.25s;
+    background: linear-gradient(135deg, rgba(99,102,241,0.9), rgba(139,92,246,0.9));
+    box-shadow: 0 8px 24px rgba(99,102,241,0.35);
+    backdrop-filter: blur(8px);
+  }
+  .btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(99,102,241,0.5);
+  }
+  .btn:disabled {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.4);
+    box-shadow:none; cursor:not-allowed;
+  }
+
+  .msg {
+    margin-top:16px; padding:12px 14px;
+    border-radius:12px; font-size:14px; display:none;
+    backdrop-filter: blur(8px);
+  }
+  .msg.success {
+    background: rgba(16,185,129,0.15);
+    border:1px solid rgba(16,185,129,0.35);
+    color:#6ee7b7; display:block;
+  }
+  .msg.error {
+    background: rgba(239,68,68,0.15);
+    border:1px solid rgba(239,68,68,0.35);
+    color:#fca5a5; display:block;
+  }
+
+  .support { text-align:center; }
+  .support h2 {
+    background: linear-gradient(135deg,#a5b4fc,#f0abfc);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .support p {
+    color: rgba(255,255,255,0.72);
+    font-size:14px; margin-bottom:18px; line-height:1.6;
+  }
+  .qr-wrap {
+    background: rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:16px;
+    padding:12px;
+    display:inline-block;
+    margin-bottom:14px;
+    box-shadow: 0 8px 32px rgba(99,102,241,0.25);
+  }
+  .qr { width:200px; border-radius:10px; display:block; }
+  .support small { color: rgba(255,255,255,0.5); font-size:12px; }
+
+  .back {
+    display:inline-block; margin-top:24px;
+    font-size:13px; color: rgba(255,255,255,0.55);
+    text-decoration:none; transition:.2s;
+  }
+  .back:hover { color:#a5b4fc; }
+
+  footer.operator {
+    position:relative; z-index:2;
+    text-align:center;
+    margin-top:32px;
+    font-size:12px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing:.2px;
+  }
+  footer.operator strong { color: rgba(255,255,255,0.8); font-weight:600; }
+</style>
+</head>
+<body>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="logo">🎲</div>
+      <h1>Random <span>Ambon</span></h1>
+      <p>Fill up the form below — we'll forward it directly to the operator.</p>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Your Details</h2>
+        <form id="form" novalidate>
+          <label for="name">Name</label>
+          <input id="name" type="text" placeholder="e.g. Juan Dela Cruz" autocomplete="name" required />
+
+          <label for="gcashNumber">GCash Number</label>
+          <input id="gcashNumber" type="tel" placeholder="e.g. 0917 123 4567" inputmode="numeric" autocomplete="tel" maxlength="13" required />
+          <div class="hint">10–13 digits, PH format (09XXXXXXXXX)</div>
+
+          <label for="initial">Initial</label>
+          <input id="initial" type="text" placeholder="e.g. J.D" maxlength="6" required />
+          <div class="hint">Letters and dots only</div>
+
+          <button class="btn" type="submit" id="submitBtn">Submit & Send</button>
+          <div class="msg" id="msg" role="status" aria-live="polite"></div>
+        </form>
+        <a href="/" class="back">← Back to welcome</a>
+      </div>
+
+      <div class="card support">
+        <h2>💜 Support the Project</h2>
+        <p>If you'd like to help maintain Random Ambon, you can donate here:</p>
+        <div class="qr-wrap">
+          <img src="https://i.imgur.com/dj2bJzG.jpeg" alt="Donation QR Code" class="qr" />
+        </div>
+        <br />
+        <small>Scan to donate via GCash</small>
+      </div>
+    </div>
+
+    <footer class="operator">
+      Operated by <strong>Nolan Nakagdspeed</strong>
+    </footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('form');
+    const msg = document.getElementById('msg');
+    const btn = document.getElementById('submitBtn');
+    const gcash = document.getElementById('gcashNumber');
+    const initial = document.getElementById('initial');
+
+    // Auto-format GCash number with spaces
+    gcash.addEventListener('input', () => {
+      let d = gcash.value.replace(/\D/g, '').slice(0, 11);
+      if (d.length > 7) gcash.value = d.slice(0,4) + ' ' + d.slice(4,7) + ' ' + d.slice(7);
+      else if (d.length > 4) gcash.value = d.slice(0,4) + ' ' + d.slice(4);
+      else gcash.value = d;
+    });
+
+    // Force uppercase for initial
+    initial.addEventListener('input', () => {
+      initial.value = initial.value.toUpperCase().replace(/[^A-Z. ]/g, '');
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.className = 'msg';
+      msg.textContent = '';
+      [gcash, initial].forEach(el => el.classList.remove('invalid'));
+
+      const data = {
+        name: form.name.value.trim(),
+        gcashNumber: form.gcashNumber.value.trim(),
+        initial: form.initial.value.trim(),
+      };
+
+      if (!data.name || !data.gcashNumber || !data.initial) {
+        msg.className = 'msg error';
+        msg.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      const digits = data.gcashNumber.replace(/\D/g, '');
+      if (digits.length < 10 || digits.length > 13) {
+        gcash.classList.add('invalid');
+        msg.className = 'msg error';
+        msg.textContent = 'Invalid GCash number format.';
+        return;
+      }
+
+      if (!/^[A-Z. ]{1,6}$/.test(data.initial)) {
+        initial.classList.add('invalid');
+        msg.className = 'msg error';
+        msg.textContent = 'Initial must be letters and dots only (e.g. J.D).';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('/api/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed');
+
+        msg.className = 'msg success';
+        msg.textContent = '✅ Sent successfully! Salamat sa pagsuporta.';
+        form.reset();
+      } catch (err) {
+        msg.className = 'msg error';
+        msg.textContent = '❌ ' + err.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Submit & Send';
+      }
+    });
+  </script>
+</body>
+</html>
